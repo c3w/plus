@@ -67,7 +67,7 @@ stuff.each do|k,v|
 	              end
               when "output"
 		      if u == "email"
-			      $postcmd="mail -s \+ #{$email} < #{runfile}.out"
+			      $postcmd="mail -s \"+ #{function} #{runbook} on #{object} in #{envi} environment\" #{$email} < #{runfile}.out"
 	              end
 
 	    end	
