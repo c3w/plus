@@ -1,0 +1,12 @@
+// plus objects
+// DUMMY
+
+{
+	"dummy":
+		{ "list":
+			{ "command": "ls",
+			  "sudo":    "false",
+			  "output":  "email"
+			}
+		}
+}

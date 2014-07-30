@@ -1,0 +1,140 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+plusrc = ENV['HOME'] + "/.plusrc"
+
+
+f = File.open(plusrc, 'r')
+json = f.read
+hash = JSON.parse(json)
+
+stuff = hash.select{|key, hash| key=""}
+
+stuff.each do|k,v|
+	case k
+	  when "email"
+		  $email=v
+	  end
+end
+f.close
+
+
+
+help = "true" if ARGV[0].nil?
+
+case help
+when "true"
+	puts "~~ ~~\n"
+	puts "./plus [environment] [object] [runbook] [function]\n"
+	puts "i.e. 'plus ops app1 passenger restart' will restart passenger on ops-app01\n"
+	puts "'plus ops app passenger restart' will restart passenger on all ops app servers\n"
+	puts "~~ ~~\n"
+	exit
+end
+
+envi = ARGV[0]
+object = ARGV[1]
+objectbase = object.gsub(/(\d+)/, '')
+runbook = ARGV[2]
+function = ARGV[3]
+
+puts "+ #{function} #{runbook} on #{object} in #{envi} environment"
+#
+#
+runfile = "plus.runtime"
+runtime = File.open(runfile, 'w')
+
+runbook = "runbooks/#{runbook}.json"
+f = File.open(runbook, 'r')
+
+json = f.read
+hash = JSON.parse(json)
+
+stuff = hash.select{|key, hash| key=""}
+
+stuff.each do|k,v|
+  v.each do|key, value|
+    case key
+      when "#{function}"
+	  value.each do |p,u|
+	    case p
+              when "command"
+		      $command=u
+              when "sudo"
+		      if u == "true"
+			      $prefix="sudo"
+	              end
+              when "output"
+		      if u == "email"
+			      $postcmd="mail -s \+ #{$email} < #{runfile}.out"
+	              end
+
+	    end	
+	  end
+      end
+    end
+end
+
+
+environment = "environments/#{envi}.json"
+fe = File.open(environment, 'r')
+
+jsone = fe.read
+hashe = JSON.parse(jsone)
+
+stuff = hashe.select{|key, hashe| key=""}
+
+stuff.each do|k,v|
+case k
+when "#{envi}"
+  v.each do|key, value|
+	  key.each do |p,u|
+	    case p
+              when "#{objectbase}"
+		      u.each do |a, b|
+			      case a['aka']
+			        when /#{object}[\d]?/
+				  cmd="ssh #{a['server']} -t \"#{$prefix} #{$command}\""
+				  runtime.write(cmd)
+				  runtime.write "\n"
+		              end
+		      end
+
+	    end	
+	  end
+    end
+end
+end
+
+runtime.write("###\n")
+runtime.close
+
+puts "\033[38;05;166m~~~~~~~~~~~~~~~~~~~~~~~"
+puts "~~ \033[1;31m PREPARED TO RUN  \033[38;05;166m~~"
+puts "~~                   ~~\e[37;1m"
+
+runtime = File.open(runfile, 'r')
+
+while line = runtime.gets do
+	puts line
+end
+runtime.close
+
+puts "~~  \e[31;1mOK TO PROCEED??  \033[38;05;166m~~"
+confirm = STDIN.gets.chomp
+
+case confirm
+  when "yes"
+	puts "running now"
+	system("cp #{runfile} #{runfile}.out")
+	cmd=". #{runfile} 2>&1 | tee -a #{runfile}.out"
+	system(cmd)
+	system($postcmd)
+        File.delete(runfile)
+        File.delete("#{runfile}.out")
+  else
+    puts "aborting and removing runtime file"
+    File.delete(runfile)
+end
+

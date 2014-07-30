@@ -1,0 +1,17 @@
+// plus runbook
+// PASSENGER
+
+{
+	"passenger":
+		{ "restart":
+			{ "command": "passenger_restart",
+			  "sudo":    "true",
+			  "output":  "email"
+			},
+		  "start":
+		 	{ "command": "start nginx",
+			  "sudo":    "true",
+			  "output":  "screen"
+			}
+		}
+}
