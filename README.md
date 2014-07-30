@@ -10,7 +10,7 @@ an example below, restarts the passenger service on all ops-env app servers
 
 ./plus ops app passenger restart
 
-you could also specify a particular app server, by chaging e.g. 'app' to 'app2'
+you could also specify a particular app server, by changing e.g. 'app' to 'app2'
 
 see the JSON files included to get your feet wet and enjoy!
 
