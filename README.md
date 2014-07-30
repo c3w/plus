@@ -3,6 +3,7 @@ plus
 
 command your fleet of systems from your mac using runbooks and environment configs
 
+DEMO VIDEO @ https://www.youtube.com/watch?v=SmELzh3zMIs&feature=youtube_gdata_player
 
 by defining runbooks and environments in JSON files, you can restart services, push code, examine systems, etc, all with one command line
 
