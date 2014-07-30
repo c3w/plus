@@ -1,0 +1,6 @@
+// plus global config
+// cp to ~/.plusrc
+
+{
+	"email": "myemail@mydomain.tld"
+}
