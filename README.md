@@ -19,4 +19,7 @@ you could also specify a particular app server, by changing e.g. 'app' to 'app2'
 
 see the JSON files included to get your feet wet and enjoy!
 
+
+### p.s. found a good online JSON-lint validator that I recommend using before commiting any changes to the JSON files ### -- http://jsonlint.com/
+
 Chas. <c3w@juicypop.net>
