@@ -6,6 +6,15 @@
 			{ "server": "ops-app01.sf.mydomain.tld", "aka": "app1" },
 			{ "server": "ops-app02.sf.mydomain.tld", "aka": "app2" }
 		]
+		},
+		{ "api": [
+			{ "server": "ops-api01.sf.mydomain.tld", "aka": "api1" }
+		]
+		},
+		{ "masterdb": [
+			{ "server": "ops-masterdb01.sf.mydomain.tld", "aka": "masterdb1" },
+			{ "server": "ops-masterdb02.sf.mydomain.tld", "aka": "masterdb2" }
+		]
 		}
 	]
 }

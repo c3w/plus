@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+envi = ARGV[0]
+object = ARGV[1]
+runbook = ARGV[2]
+function = ARGV[3]
+
+
+if ARGV[0].nil?
+  Dir.foreach('./environments') do |item|
+    next if item == '.' or item == '..'
+    itembase = item.gsub(".json", '')
+    puts "#{itembase}"
+  end
+  exit
+end
+
+if ARGV[1].nil?
+  environment = "environments/#{envi}.json"
+  f = File.open(environment, 'r')
+
+  json = f.read
+  hash = JSON.parse(json)
+
+  stuff = hash.select{|key, hash| key=""}
+
+  stuff.each do|k,v|
+  case k
+  when "#{envi}"
+    v.each do|key, value|
+            key.each do |p,u|
+              puts "#{p}"
+              u.each do |a, b|
+                puts "#{a['aka']}"
+              end
+            end
+          end
+        end
+      end
+      exit
+end
+
+if ARGV[2].nil?
+  Dir.foreach('./runbooks') do |item|
+    next if item == '.' or item == '..'
+    itembase = item.gsub(".json", '')
+    puts "#{itembase}"
+  end
+  exit
+end
+
+if ARGV[3].nil?
+  runbookf = "runbooks/#{runbook}.json"
+  f = File.open(runbookf, 'r')
+
+  json = f.read
+  hash = JSON.parse(json)
+
+  stuff = hash.select{|key, hash| key=""}
+
+  stuff.each do|k,v|
+    case k
+      when "#{runbook}"
+        v.each do|key, value|
+          puts "#{key}"
+        end
+        
+      end
+    end    
+    exit
+end

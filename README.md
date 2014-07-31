@@ -5,6 +5,10 @@ command your fleet of systems from your mac using runbooks and environment confi
 
 DEMO VIDEO @ https://www.youtube.com/watch?v=SmELzh3zMIs&feature=youtube_gdata_player
 
+##############
+UPDATE!!!! now supports TAB completion - just put _plus_complete.sh and plus_helper in your ~/bin directory, then add . ~/bin/plus_complete.sh to your ~/.bash_profile
+##############
+
 by defining runbooks and environments in JSON files, you can restart services, push code, examine systems, etc, all with one command line
 
 an example below, restarts the passenger service on all ops-env app servers
